@@ -6,41 +6,49 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 
-public class LoremIpsumPage extends BasePage{
+public class LoremIpsumPage extends AbstractPage {
+
+    private static final String LOREM_IPSUM_URL = "https://lipsum.com/";
 
     @FindBy(xpath = "//a[@class='ru']")
-    public WebElement ruLanguageLink;
+    private WebElement ruLanguageLink;
 
     @FindBy(xpath = "//p[contains(text(), 'PageMaker')]")
-    public WebElement loremIpsumParagraph;
+    private WebElement loremIpsumParagraph;
 
-    @FindBy(css = "#generate")
-    public WebElement generateButton;
+    @FindBy(xpath = "//*[@id='generate']")
+    private WebElement generateButton;
 
     @FindBy(xpath = "//div[@id='lipsum']/p[1]")
-    public WebElement firstParagraphAfterGeneratingLoremIpsum;
+    private WebElement firstParagraphAfterGeneratingLoremIpsum;
 
     public LoremIpsumPage(WebDriver driver) {
         super(driver);
     }
 
-    public void clickOnRuLink(){
-        waitUntilElementIsClickable(5, ruLanguageLink);
+    @Override
+    public LoremIpsumPage openPage() {
+        driver.navigate().to(LOREM_IPSUM_URL);
+        return this;
+    }
+
+    public void clickOnRuLink() {
+        waitUntilElementIsClickable(ruLanguageLink);
         ruLanguageLink.click();
     }
 
-    public String getFirstParagraph(long timeToWait){
-        waitUntilElementIsVisible(timeToWait, loremIpsumParagraph);
+    public String getFirstParagraph() {
+        waitUntilElementIsVisible(loremIpsumParagraph);
         return loremIpsumParagraph.getText();
     }
 
-    public void clickOnGenerateButton(){
+    public void clickOnGenerateButton() {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", generateButton);
         generateButton.click();
     }
 
-    public String getFirstParagraphAfterGeneratingLoremIpsum(){
-        waitUntilElementIsVisible(5, firstParagraphAfterGeneratingLoremIpsum);
+    public String getFirstParagraphAfterGeneratingLoremIpsum() {
+        waitUntilElementIsVisible(firstParagraphAfterGeneratingLoremIpsum);
         return firstParagraphAfterGeneratingLoremIpsum.getText();
     }
 }

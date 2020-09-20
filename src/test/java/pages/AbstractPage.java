@@ -1,27 +1,29 @@
 package pages;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class BasePage {
-    WebDriver driver;
+public abstract class AbstractPage {
+    protected WebDriver driver;
+    static final int TIME_TO_WAIT = 5;
 
-    public BasePage(WebDriver driver) {
+    protected abstract AbstractPage openPage();
+
+    protected AbstractPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-    public void waitUntilElementIsClickable(long timeToWait, WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, timeToWait);
+    protected void waitUntilElementIsClickable(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, TIME_TO_WAIT);
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    public void waitUntilElementIsVisible(long timeToWait, WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, timeToWait);
+    protected void waitUntilElementIsVisible(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, TIME_TO_WAIT);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 }

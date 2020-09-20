@@ -1,44 +1,27 @@
 package tests;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import pages.BasePage;
-import pages.LoremIpsumPage;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 
-public class BaseTest {
 
-    WebDriver driver;
-    private static final String LOREM_IPSUM_URL = "https://lipsum.com/";
+public abstract class BaseTest {
 
-/*
+    protected WebDriver driver;
+
     @BeforeTest
     public void profileSetUp() {
-        System.setProperty("webdriver.chrome.driver", "usr/bin/chromedriver");
-    }
- Uncomment it and add local path to chromedriver if chromedriver is not set in system path variable
-*/
-
-    @BeforeMethod
-    public void testsSetUp() {
+        WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.get(LOREM_IPSUM_URL);
     }
 
-    @AfterMethod
+    @AfterTest
     public void tearDown() {
-        driver.close();
+        if (driver != null) {
+            driver.quit();
+        }
     }
-
-    public WebDriver getDriver() {
-        return driver;
-    }
-
-    public BasePage getBasePage() {
-        return new BasePage(getDriver());
-    }
-
-    public LoremIpsumPage getLoremIpsumPage() { return new LoremIpsumPage(getDriver()); }
 }

@@ -1,26 +1,31 @@
 package tests;
 
 import org.testng.annotations.Test;
+import pages.LoremIpsumPage;
+
 import static org.testng.Assert.assertTrue;
 
 
-public class LoremIpsumTests extends BaseTest{
-    static final String EXPECTED_WORD = "рыба";
-    static final String EXPECTED_PHRASE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
+public abstract class LoremIpsumTests extends BaseTest{
+
+    private static final String EXPECTED_WORD = "рыба";
+    private static final String EXPECTED_PHRASE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
 
     @Test
-    public void CheckThatExpectedWordIsShown() {
-        getBasePage();
-        getLoremIpsumPage().clickOnRuLink();
-        String actualResult = getLoremIpsumPage().getFirstParagraph(5);
-        assertTrue(actualResult.contains(EXPECTED_WORD));
+    public void checkThatExpectedWordIsShown() {
+        String actualResult = new LoremIpsumPage(driver)
+                .openPage()
+                .clickOnRuLink()
+                .getFirstParagraph();
+        assertTrue(actualResult.contains(EXPECTED_WORD), String.format("The '%s' word is not shown in the first paragraph.", EXPECTED_WORD));
     }
-    @Test(priority = 1)
-    public void CheckThatLoremIpsumStartedWithExpectedTextAfterGenerating(){
-        getBasePage();
-        getLoremIpsumPage().clickOnGenerateButton();
-        String actualResult = getLoremIpsumPage().getFirstParagraphAfterGeneratingLoremIpsum();
-        assertTrue(actualResult.contains(EXPECTED_PHRASE));
+
+    @Test
+    public void checkThatLoremIpsumStartedWithExpectedTextAfterGenerating(){
+        String actualResult = new LoremIpsumPage(driver)
+                .clickOnGenerateButton()
+                .getFirstParagraphAfterGeneratingLoremIpsum();
+        assertTrue(actualResult.contains(EXPECTED_PHRASE), "Incorrect text is shown after generating.");
     }
 }
 
