@@ -7,15 +7,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class AbstractPage {
-    protected WebDriver driver;
     static final int TIME_TO_WAIT = 5;
-
-    protected abstract AbstractPage openPage();
+    protected WebDriver driver;
 
     protected AbstractPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
+
+    protected abstract AbstractPage openPage();
 
     protected void waitUntilElementIsClickable(WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, TIME_TO_WAIT);

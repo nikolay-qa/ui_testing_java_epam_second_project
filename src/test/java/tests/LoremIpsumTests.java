@@ -6,13 +6,11 @@ import pages.LoremIpsumPage;
 import static org.testng.Assert.assertTrue;
 
 
-public abstract class LoremIpsumTests extends BaseTest{
-
-    private static final String EXPECTED_WORD = "рыба";
-    private static final String EXPECTED_PHRASE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
+public class LoremIpsumTests extends BaseTest {
 
     @Test
     public void checkThatExpectedWordIsShown() {
+        String EXPECTED_WORD = "рыба";
         String actualResult = new LoremIpsumPage(driver)
                 .openPage()
                 .clickOnRuLink()
@@ -21,7 +19,8 @@ public abstract class LoremIpsumTests extends BaseTest{
     }
 
     @Test
-    public void checkThatLoremIpsumStartedWithExpectedTextAfterGenerating(){
+    public void checkThatLoremIpsumStartedWithExpectedTextAfterGenerating() {
+        String EXPECTED_PHRASE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
         String actualResult = new LoremIpsumPage(driver)
                 .clickOnGenerateButton()
                 .getFirstParagraphAfterGeneratingLoremIpsum();
